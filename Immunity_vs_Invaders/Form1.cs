@@ -25,6 +25,8 @@ namespace Immunity_vs_Invaders
         TextureManager  _textureManager = new TextureManager();
         SoundManager    _soundManger    = new SoundManager();
 
+        Engine.Font     _titleFont;
+
 
 
         public Form1()
@@ -49,13 +51,14 @@ namespace Immunity_vs_Invaders
 
         private void InitializeGameState()
         {
-            _system.AddState("splash", new SplashScreenState(_system));
+            _system.AddState("splash", new SplashScreenState(_system, _textureManager, _titleFont));
             _system.ChangeState("splash");
            
         }
-
+       
         private void InitializeFonts()
         {
+            _titleFont = new Engine.Font(_textureManager.Get("title_font"), FontParser.Parse("fonts/title_font.fnt"));
             
         }
 
@@ -65,6 +68,11 @@ namespace Immunity_vs_Invaders
             Ilu.iluInit();
             Ilut.ilutInit();
             Ilut.ilutRenderer(Ilut.ILUT_OPENGL);
+
+            _textureManager.LoadTexture("phagocyte", "sprites/solosis.tga");
+            _textureManager.LoadTexture("tatoo_dye", "sprites/munna.tga");
+            _textureManager.LoadTexture("parasite", "sprites/weedle.tga");
+            _textureManager.LoadTexture("title_font", "fonts/title_font.tga");
             
         }
 

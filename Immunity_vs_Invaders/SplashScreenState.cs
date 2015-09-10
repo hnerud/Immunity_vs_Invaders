@@ -12,16 +12,22 @@ namespace Immunity_vs_Invaders
     class SplashScreenState : IGameObject
     {
         StateSystem _system;
-        double _delayInSeconds = 3;
         Sprite _character1 = new Sprite();
         Sprite _invader1 = new Sprite();
         Sprite _invader2 = new Sprite();
         Renderer _renderer = new Renderer();
         Text _title;
+        SoundManager _soundManager;
+        double _count = 3;
+        PreciseTimer _time = new PreciseTimer();
 
-        public SplashScreenState(StateSystem system, TextureManager textureManager, Engine.Font titleFont)
+        public SplashScreenState(StateSystem system, TextureManager textureManager, Engine.Font titleFont, SoundManager soundManager)
         {
             _system = system;
+
+            //sound
+            _soundManager = soundManager;
+            _soundManager.MasterVolume(0.01f);
 
             //title font
             _title = new Text("Immune Cells vs. Invaders", titleFont);
@@ -42,6 +48,8 @@ namespace Immunity_vs_Invaders
             _invader2.SetScale(2, 2);
             _invader2.SetPosition(200, 0);
 
+            _soundManager.PlaySound("intro_music");
+
         }
         void IGameObject.Render()
         {
@@ -52,18 +60,25 @@ namespace Immunity_vs_Invaders
             _renderer.DrawSprite(_invader1);
             _renderer.DrawSprite(_invader2);
             _renderer.Render();
+
+            
             //Gl.glFinish();
-            
-            
+
+
         }
 
         void IGameObject.Update(double elapsedTime)
         {
-            _delayInSeconds -= elapsedTime;
-            if (_delayInSeconds <=0)
+           
+
+            _count -= elapsedTime;
+            if (_count <= 0)
             {
-              _delayInSeconds = 60;
-           }
+                _count = 3;
+                _system.ChangeState("start_menu");
+            }
+
+
         }
 
     }

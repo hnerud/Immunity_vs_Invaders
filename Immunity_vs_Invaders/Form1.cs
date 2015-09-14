@@ -18,12 +18,13 @@ namespace Immunity_vs_Invaders
     public partial class Form1 : Form
     {
 
-        bool            _fullscreen     = false;
-        FastLoop        _fastLoop;
-        StateSystem     _system         = new StateSystem();
-        Input           _input          = new Input();
-        TextureManager  _textureManager = new TextureManager();
-        SoundManager    _soundManger    = new SoundManager();
+        bool                _fullscreen         = false;
+        FastLoop            _fastLoop;
+        StateSystem         _system             = new StateSystem();
+        Input               _input              = new Input();
+        TextureManager      _textureManager     = new TextureManager();
+        SoundManager        _soundManger        = new SoundManager();
+        PersistentGameData _persistentGameData  = new PersistentGameData();
 
         Engine.Font     _titleFont;
         Engine.Font     _generalFont;
@@ -44,7 +45,9 @@ namespace Immunity_vs_Invaders
             InitializeSounds();
             InitializeTextures();
             InitializeFonts();
+            InitializeGameData();
             InitializeGameState();
+            
 
             _fastLoop = new FastLoop(GameLoop);
 
@@ -54,6 +57,7 @@ namespace Immunity_vs_Invaders
         {
             _system.AddState("splash", new SplashScreenState(_system, _textureManager, _titleFont, _soundManger));
             _system.AddState("start_menu", new StartMenuState(_titleFont, _generalFont, _input, _system));
+            _system.AddState("inner_game", new InnerGameState(_system, _input, _persistentGameData, _generalFont));
             _system.ChangeState("splash");
            
         }
@@ -76,6 +80,14 @@ namespace Immunity_vs_Invaders
             _textureManager.LoadTexture("parasite", "sprites/weedle.tga");
             _textureManager.LoadTexture("title_font", "fonts/title_font.tga");
             _textureManager.LoadTexture("general_font", "fonts/general_font.tga");
+            
+        }
+       
+        private void InitializeGameData()
+        {
+            LevelDescription level = new LevelDescription();
+            level.Time = 1;
+            _persistentGameData.CurrentLevel = level;
             
         }
 

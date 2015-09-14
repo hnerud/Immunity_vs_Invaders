@@ -64,6 +64,9 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="InnerGameState.cs" />
+    <Compile Include="LevelDescription.cs" />
+    <Compile Include="PersistentGameData.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SplashScreenState.cs" />

@@ -18,7 +18,7 @@ namespace Immunity_vs_Invaders
         Renderer _renderer = new Renderer();
         Text _title;
         SoundManager _soundManager;
-        double _count = 3;
+        double _count = 22;
         PreciseTimer _time = new PreciseTimer();
 
         public SplashScreenState(StateSystem system, TextureManager textureManager, Engine.Font titleFont, SoundManager soundManager)
@@ -74,7 +74,7 @@ namespace Immunity_vs_Invaders
             _count -= elapsedTime;
             if (_count <= 0)
             {
-                _count = 3;
+                _count = 22;
                 _system.ChangeState("start_menu");
             }
 

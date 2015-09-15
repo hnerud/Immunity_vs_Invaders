@@ -16,32 +16,39 @@ namespace Immunity_vs_Invaders
         StateSystem _system;
         PersistentGameData _gameData;
         Font _generalFont;
+        Level _level;
+        TextureManager _textureManager;
 
         double _gameTime;
 
-        public InnerGameState(StateSystem system, Input input, PersistentGameData gameData, Font generalFont)
+        public InnerGameState(StateSystem system, Input input, TextureManager textureManager, PersistentGameData gameData, Font generalFont)
         {
             _input = input;
             _system = system;
             _gameData = gameData;
             _generalFont = generalFont;
+            _textureManager = textureManager;
             OnGameStart();
         }
 
         public void OnGameStart()
         {
+            _level = new Level(_input, _textureManager, _gameData);
             _gameTime = _gameData.CurrentLevel.Time;
+            
         }
         void IGameObject.Render()
         {
             Gl.glClearColor(1, 0, 1, 0);
             Gl.glClear(Gl.GL_COLOR_BUFFER_BIT);
+            _level.Render(_renderer);
             _renderer.Render();
           
         }
 
         void IGameObject.Update(double elapsedTime)
         {
+            _level.Update(elapsedTime);
             _gameTime -= elapsedTime;
 
             if (_gameTime <= 0)

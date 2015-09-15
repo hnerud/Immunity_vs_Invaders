@@ -57,7 +57,7 @@ namespace Immunity_vs_Invaders
         {
             _system.AddState("splash", new SplashScreenState(_system, _textureManager, _titleFont, _soundManger));
             _system.AddState("start_menu", new StartMenuState(_titleFont, _generalFont, _input, _system));
-            _system.AddState("inner_game", new InnerGameState(_system, _input, _persistentGameData, _generalFont));
+            _system.AddState("inner_game", new InnerGameState(_system, _input, _textureManager, _persistentGameData, _generalFont));
             _system.AddState("game_over", new GameOverState(_persistentGameData, _system, _input, _generalFont, _titleFont));
             _system.ChangeState("splash");
            
@@ -87,7 +87,7 @@ namespace Immunity_vs_Invaders
         private void InitializeGameData()
         {
             LevelDescription level = new LevelDescription();
-            level.Time = 1;
+            level.Time = 30;
             _persistentGameData.CurrentLevel = level;
             
         }

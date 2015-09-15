@@ -48,6 +48,7 @@ namespace Immunity_vs_Invaders
             {
                 OnGameStart();
                 _gameData.JustWon = true;
+                _system.ChangeState("game_over");
             }
         }
     }

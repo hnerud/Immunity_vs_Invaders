@@ -15,6 +15,8 @@ namespace Immunity_vs_Invaders
         Sprite _phagocyte = new Sprite();
         double _speed = 512;
         Input _input;
+        Level _level;
+        int i = 0;
         
         
 
@@ -24,6 +26,7 @@ namespace Immunity_vs_Invaders
            _input = input;
             _phagocyte.Texture = textureManager.Get("phagocyte");
             _phagocyte.SetScale(2, 2);
+            
 
 
 
@@ -35,16 +38,25 @@ namespace Immunity_vs_Invaders
 
         }
 
+        public void Update(double elapsedTime)
+        {
+            // used to get times?  ADDED
+        }
+
        
 
         public void Move(Vector amount)
         {
 
-            amount *= _speed;
+
+             amount *= _speed;
             _phagocyte.SetPosition(_phagocyte.GetPosition() + amount);
-         
+
+            //_phagocyte.SetPosition(_phagocyte.GetPosition() + amount);
+
 
         }
+       
 
     }
 

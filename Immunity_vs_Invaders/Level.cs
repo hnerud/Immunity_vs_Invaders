@@ -16,14 +16,30 @@ namespace Immunity_vs_Invaders
         PersistentGameData _gameData;
         PlayerCharacter _playerCharacter;
         TextureManager _textureManager;
-        Renderer _renderer;
+        int n=0;
+        int x = 0;
+        bool space = false;
+        //Renderer _renderer;
+
+//ADDED
+        List<PlayerCharacter> _playerList = new List<PlayerCharacter>();
 
         public Level (Input input, TextureManager textureManager, PersistentGameData gameData)
         {
             _input = input;
             _gameData = gameData;
             _textureManager = textureManager;
-            _playerCharacter = new PlayerCharacter(_textureManager, _input);
+
+            // TAKE AWAY FOR NOW
+           _playerCharacter = new PlayerCharacter(_textureManager, _input);
+
+            // ADDED
+
+            _playerList.Add(new PlayerCharacter(_textureManager, _input));
+            //something to try
+            //_playerList.Add(_playerCharacter);
+
+
         }
 
         public void Update(double elapsedTime)
@@ -32,6 +48,11 @@ namespace Immunity_vs_Invaders
             double _x = _input.Controller.LeftControlStick.X;
             double _y = _input.Controller.LeftControlStick.Y * -1;
             Vector controlInput = new Vector(_x, _y, 0);
+
+            //ADDED
+
+           
+           
 
             if (Math.Abs(controlInput.Length()) < 0.0001)
             {
@@ -58,21 +79,61 @@ namespace Immunity_vs_Invaders
                 }
                 if (_input.Keyboard.IsKeyPressed(Keys.Space))
                 {
-                    Render(_renderer);
+
+                    _playerList.Add(new PlayerCharacter(_textureManager, _input));
+
 
                 }
+
+
+                // _playerList.ForEach(x => x.Update(elapsedTime));
+
+                foreach (PlayerCharacter p in _playerList)
+                {
+
+                    Console.WriteLine(_playerList.Count);
+
+                    //if (x == _playerList.Count)
+                    //{
+
+                       
+                        p.Move(controlInput * elapsedTime);
+                       // x++;
+                    //}
+                   
+
+
+                    p.Update(elapsedTime);
+                }
+
+
+
+
+
+
+
+
+
+
+                // need to do something with this to extract players 
+                // _playerCharacter.Move(controlInput * elapsedTime);
+
             }
 
-            _playerCharacter.Move(controlInput * elapsedTime);
 
-
-
-             
         }
         public void Render(Renderer renderer)
         {
-            _playerCharacter.Render(renderer);
+            // _playerCharacter.Render(renderer);
+            //REMOVED FOR NOW
 
+            _playerList.ForEach(x => x.Render(renderer));
+
+        }
+
+        public int GetPlayerCount()
+        {
+            return _playerList.Count();
         }
     }
 }

@@ -39,9 +39,9 @@ namespace Immunity_vs_Invaders
         }
         void IGameObject.Render()
         {
-            Gl.glClearColor(1, 0, 1, 0);
+            Gl.glClearColor(1, 1, 1, 0);
             Gl.glClear(Gl.GL_COLOR_BUFFER_BIT);
-            _level.Render(_renderer);
+            _level.Render(_renderer); //this is key!
             _renderer.Render();
           
         }

@@ -48,7 +48,7 @@ namespace Immunity_vs_Invaders
 
         void IGameObject.Update(double elapsedTime)
         {
-            _level.Update(elapsedTime);
+            _level.Update(elapsedTime, _gameTime);
             _gameTime -= elapsedTime;
 
             if (_gameTime <= 0)
@@ -57,6 +57,12 @@ namespace Immunity_vs_Invaders
                 _gameData.JustWon = true;
                 _system.ChangeState("game_over");
             }
+            //if (_level.EnemyOverrun())
+            //{
+            //    OnGameStart();
+            //    _gameData.JustWon = false;
+            //    _system.ChangeState("game_over");
+            //}
         }
     }
 }

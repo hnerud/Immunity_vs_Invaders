@@ -48,7 +48,7 @@ namespace Immunity_vs_Invaders
             _invader2.SetScale(2, 2);
             _invader2.SetPosition(200, 0);
 
-            _soundManager.PlaySound("intro_music");
+           // _soundManager.PlaySound("intro_music");
 
         }
         void IGameObject.Render()

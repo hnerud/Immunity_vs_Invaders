@@ -14,15 +14,18 @@ namespace Immunity_vs_Invaders
     {
         Input _input;
         PersistentGameData _gameData;
-        PlayerCharacter _playerCharacter;
+       
         TextureManager _textureManager;
-        int n=0;
-        int x = 0;
-        bool space = false;
-        //Renderer _renderer;
 
-//ADDED
-        List<PlayerCharacter> _playerList = new List<PlayerCharacter>();
+        
+
+        static readonly double Recovery = 3;
+        double _recoveryTime = Recovery;
+
+
+
+        PlayerManager _playerManager;
+        EnemyManager _enemyManager;
 
         public Level (Input input, TextureManager textureManager, PersistentGameData gameData)
         {
@@ -30,29 +33,20 @@ namespace Immunity_vs_Invaders
             _gameData = gameData;
             _textureManager = textureManager;
 
-            // TAKE AWAY FOR NOW
-           _playerCharacter = new PlayerCharacter(_textureManager, _input);
+            _playerManager = new PlayerManager(_textureManager);
 
-            // ADDED
-
-            _playerList.Add(new PlayerCharacter(_textureManager, _input));
-            //something to try
-            //_playerList.Add(_playerCharacter);
-
+            _enemyManager = new EnemyManager(_textureManager, -1300);
 
         }
 
-        public void Update(double elapsedTime)
+        public void Update(double elapsedTime, double gameTime)
         {
+            _recoveryTime = Math.Max(0, (_recoveryTime - elapsedTime));
+            //is this best spot???
             // Get controls and apply to player character
             double _x = _input.Controller.LeftControlStick.X;
             double _y = _input.Controller.LeftControlStick.Y * -1;
             Vector controlInput = new Vector(_x, _y, 0);
-
-            //ADDED
-
-           
-           
 
             if (Math.Abs(controlInput.Length()) < 0.0001)
             {
@@ -80,60 +74,84 @@ namespace Immunity_vs_Invaders
                 if (_input.Keyboard.IsKeyPressed(Keys.Space))
                 {
 
-                    _playerList.Add(new PlayerCharacter(_textureManager, _input));
-
+                    Recover();
+                    //_playerList.Add(new PlayerCharacter(_textureManager, _input));
 
                 }
-
-
-                // _playerList.ForEach(x => x.Update(elapsedTime));
-
-                foreach (PlayerCharacter p in _playerList)
-                {
-
-                    Console.WriteLine(_playerList.Count);
-
-                    //if (x == _playerList.Count)
-                    //{
-
-                       
-                        p.Move(controlInput * elapsedTime);
-                       // x++;
-                    //}
-                   
-
-
-                    p.Update(elapsedTime);
-                }
-
-
-
-
-
-
-
-
-
-
-                // need to do something with this to extract players 
-                // _playerCharacter.Move(controlInput * elapsedTime);
-
             }
 
 
+                foreach (PlayerCharacter p in _playerManager.PlayerList )
+                {
+
+                    Console.WriteLine(_playerManager.PlayerList.Count);
+
+               
+                    p.Move(controlInput * elapsedTime);
+                
+
+                    p.Update(elapsedTime);
+
+                }
+
+
+
+            _enemyManager.Update(elapsedTime, gameTime);
+
+            UpdateCollisions();
+
         }
+
+
+        
+
+       
+
         public void Render(Renderer renderer)
         {
-            // _playerCharacter.Render(renderer);
-            //REMOVED FOR NOW
 
-            _playerList.ForEach(x => x.Render(renderer));
+            _playerManager.Render(renderer);
+            _enemyManager.Render(renderer);
 
         }
 
-        public int GetPlayerCount()
+        //public bool EnemyOverrun() // needs to iterate over enemys??
+        //{
+        //    return enemy.Overrun;
+
+        //}
+
+        private void UpdateCollisions()
         {
-            return _playerList.Count();
+            foreach (PlayerCharacter playerCharacter in _playerManager.PlayerList) 
+            {
+                foreach (Enemy enemy in _enemyManager.EnemyList)
+                {
+                    if (playerCharacter.GetBoundingBox().IntersectsWith(enemy.GetBoundingBox()))
+                    {
+                        playerCharacter.OnCollision(enemy);
+                        enemy.OnCollision(playerCharacter);
+                    }
+                }
+            }
+
         }
+
+        public void Recover()
+        {
+            if (_recoveryTime > 0)
+            {
+                return;
+            }
+
+            else
+            {
+                _recoveryTime = Recovery;
+            }
+
+            _playerManager.PlayerList.Add(new PlayerCharacter(_textureManager, _input));
+        }
+
+
     }
 }

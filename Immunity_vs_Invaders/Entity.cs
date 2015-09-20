@@ -20,25 +20,32 @@ namespace Immunity_vs_Invaders
 
 
 
-        public RectangleF GetBoundingBox()
+        public RectangleF GetBoundingBox(double scaleWidth, double scaleHeight)
         {
-            float width = (float)(_sprite.Texture.Width * _resize);
-            float height = (float)(_sprite.Texture.Height * _resize);
+            double _scaleWidth = scaleWidth;
+            double _scaleHeight = scaleHeight;
+            float width = (float)(_sprite.Texture.Width *  _scaleWidth);
+            float height = (float)(_sprite.Texture.Height * _scaleHeight);
 
             return new RectangleF((float)_sprite.GetPosition().X - width / 2,
             (float)_sprite.GetPosition().Y - height / 2,
             width, height);
 
         }
-        protected void Render_Debug(int x, int y, int z)
+        protected void Render_Debug(int x, int y, int z, double scalew, double scaleh)
         {
             _x = x;
             _y = y;
             _z = z;
 
+            double _scalew = scalew;
+            double _scaleh = scaleh;
+
+
+
             Gl.glDisable(Gl.GL_TEXTURE_2D);
 
-            RectangleF bounds = GetBoundingBox();
+            RectangleF bounds = GetBoundingBox(_scalew, _scaleh);
             Gl.glBegin(Gl.GL_LINE_LOOP);
             {
                 Gl.glColor3f(_x, _y, _z);

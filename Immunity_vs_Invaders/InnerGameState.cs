@@ -16,8 +16,11 @@ namespace Immunity_vs_Invaders
         StateSystem _system;
         PersistentGameData _gameData;
         Font _generalFont;
+        Text _bloodStream;
         Level _level;
         TextureManager _textureManager;
+       
+       
 
         double _gameTime;
 
@@ -28,6 +31,14 @@ namespace Immunity_vs_Invaders
             _gameData = gameData;
             _generalFont = generalFont;
             _textureManager = textureManager;
+
+           
+            _bloodStream = new Text("BloodStream", generalFont);
+            _bloodStream.SetColor(new Color(0, 0, 0, 1));
+
+            _bloodStream.SetPosition(-600, 0);
+           
+
             OnGameStart();
         }
 
@@ -39,9 +50,13 @@ namespace Immunity_vs_Invaders
         }
         void IGameObject.Render()
         {
+
             Gl.glClearColor(1, 1, 1, 0);
             Gl.glClear(Gl.GL_COLOR_BUFFER_BIT);
+           
+            
             _level.Render(_renderer); //this is key!
+            _renderer.DrawText(_bloodStream);
             _renderer.Render();
           
         }
@@ -57,12 +72,12 @@ namespace Immunity_vs_Invaders
                 _gameData.JustWon = true;
                 _system.ChangeState("game_over");
             }
-            //if (_level.EnemyOverrun())
-            //{
-            //    OnGameStart();
-            //    _gameData.JustWon = false;
-            //    _system.ChangeState("game_over");
-            //}
+            if (_level.HasBloodstreamDied())
+            {
+               OnGameStart();
+              _gameData.JustWon = false;
+               _system.ChangeState("game_over");
+           }
         }
     }
 }

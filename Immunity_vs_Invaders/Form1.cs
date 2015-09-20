@@ -79,6 +79,7 @@ namespace Immunity_vs_Invaders
             _textureManager.LoadTexture("phagocyte", "sprites/solosis.tga");
             _textureManager.LoadTexture("tatoo_dye", "sprites/munna.tga");
             _textureManager.LoadTexture("parasite", "sprites/weedle.tga");
+            _textureManager.LoadTexture("blood_cells", "sprites/igglybuff.tga");
             _textureManager.LoadTexture("title_font", "fonts/title_font.tga");
             _textureManager.LoadTexture("general_font", "fonts/general_font.tga");
             

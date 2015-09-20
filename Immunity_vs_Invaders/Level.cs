@@ -13,16 +13,17 @@ namespace Immunity_vs_Invaders
     class Level
     {
         Input _input;
+        bool _position;
         PersistentGameData _gameData;
        
         TextureManager _textureManager;
-
-        
+        BloodStream _bloodstream;
 
         static readonly double Recovery = 3;
         double _recoveryTime = Recovery;
 
-
+        Enemy _enemy;
+        
 
         PlayerManager _playerManager;
         EnemyManager _enemyManager;
@@ -36,6 +37,8 @@ namespace Immunity_vs_Invaders
             _playerManager = new PlayerManager(_textureManager);
 
             _enemyManager = new EnemyManager(_textureManager, -1300);
+
+            _bloodstream = new BloodStream(_textureManager);
 
         }
 
@@ -71,34 +74,41 @@ namespace Immunity_vs_Invaders
                 {
                     controlInput.Y = -1;
                 }
-                if (_input.Keyboard.IsKeyPressed(Keys.Space))
-                {
+              
+            }
 
-                    Recover();
-                    //_playerList.Add(new PlayerCharacter(_textureManager, _input));
+            if (_input.Mouse.LeftPressed)
+            {
+                _position = true;
+                Recover();
+               
 
-                }
             }
 
 
-                foreach (PlayerCharacter p in _playerManager.PlayerList )
+
+            for (int i = 0; i <= _playerManager.PlayerList.Count - 1; i++)
+            {
+                if (i == _playerManager.PlayerList.Count - 1)
                 {
-
-                    Console.WriteLine(_playerManager.PlayerList.Count);
-
-               
-                    p.Move(controlInput * elapsedTime);
-                
-
-                    p.Update(elapsedTime);
-
+                    _playerManager.PlayerList[i].Move(controlInput * elapsedTime, false);
                 }
+                else
+                {
+                    _playerManager.PlayerList[i].Move(controlInput * elapsedTime, true);
+                }
+
+                _playerManager.PlayerList[i].Update(elapsedTime);
+
+            }
+              
 
 
 
             _enemyManager.Update(elapsedTime, gameTime);
 
             UpdateCollisions();
+            UpdateEnemyProgress();
 
         }
 
@@ -112,14 +122,28 @@ namespace Immunity_vs_Invaders
 
             _playerManager.Render(renderer);
             _enemyManager.Render(renderer);
+            _bloodstream.Render(renderer);
+            
 
         }
 
-        //public bool EnemyOverrun() // needs to iterate over enemys??
-        //{
-        //    return enemy.Overrun;
+       public bool HasBloodstreamDied() // needs to iterate over enemys??
+        {
+           return _bloodstream.IsDead;
 
-        //}
+       }
+
+        private void UpdateEnemyProgress()
+        {
+            foreach (Enemy enemy in _enemyManager.EnemyList)
+            {
+                if (enemy.GetBoundingBox(.65,.65).IntersectsWith(_bloodstream.GetBoundingBox(.65,7)))
+                {
+                    enemy.OnCollision(_bloodstream);
+                    _bloodstream.OnCollision(enemy);
+                }
+            }
+        }
 
         private void UpdateCollisions()
         {
@@ -127,7 +151,7 @@ namespace Immunity_vs_Invaders
             {
                 foreach (Enemy enemy in _enemyManager.EnemyList)
                 {
-                    if (playerCharacter.GetBoundingBox().IntersectsWith(enemy.GetBoundingBox()))
+                    if (playerCharacter.GetBoundingBox(.65, .65).IntersectsWith(enemy.GetBoundingBox(.65,.65)))
                     {
                         playerCharacter.OnCollision(enemy);
                         enemy.OnCollision(playerCharacter);
@@ -149,7 +173,7 @@ namespace Immunity_vs_Invaders
                 _recoveryTime = Recovery;
             }
 
-            _playerManager.PlayerList.Add(new PlayerCharacter(_textureManager, _input));
+            _playerManager.PlayerList.Add(new PlayerCharacter(_textureManager, _input, _position));
         }
 
 

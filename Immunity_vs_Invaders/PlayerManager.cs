@@ -12,6 +12,7 @@ namespace Immunity_vs_Invaders
     {
         List<PlayerCharacter> _players = new List<PlayerCharacter>();
         TextureManager _textureManager;
+        bool _position;
         Input _input;
 
         public List<PlayerCharacter> PlayerList
@@ -28,7 +29,7 @@ namespace Immunity_vs_Invaders
            
             
 
-            PlayerCharacter player = new PlayerCharacter(_textureManager, _input);
+            PlayerCharacter player = new PlayerCharacter(_textureManager, _input, _position);
             _players.Add(player);
         }
 
@@ -37,18 +38,9 @@ namespace Immunity_vs_Invaders
             _players.ForEach(x => x.Update(elapsedTime));
 
 
-            //CheckForOutOfBounds();
+           
         }
-        //private void CheckForOutOfBounds()
-        //{
-        //    foreach (PlayerCharacter player in _players)
-        //    {
-        //        if (player.GetBoundingBox().Right < _leftBound)
-        //        {
-        //            enemy.Health = 0;
-        //        }
-        //    }
-        //}
+        
 
         public void Render(Renderer renderer)
         {
@@ -56,16 +48,8 @@ namespace Immunity_vs_Invaders
 
         }
 
-        //private void RemoveDeadEnemies()
-        //{
-        //    for (int i = _enemies.Count - 1; i >= 0; i--)
-        //    {
-        //        if (_enemies[i].IsDead)
-        //        {
-        //            _enemies.RemoveAt(i);
-        //        }
-        //    }
-        //}
+       
+
     }
 }
 

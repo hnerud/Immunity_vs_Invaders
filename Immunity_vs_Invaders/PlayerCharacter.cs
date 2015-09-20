@@ -18,26 +18,37 @@ namespace Immunity_vs_Invaders
         Input _input;
         
         double _scale = 2;
+        bool _current = false;
 
         
 
         int i = 0;
-        public void Move(Vector amount)
+        public void Move(Vector amount, bool _setPosition)
         {
 
-
+          
             amount *= _speed;
+            if (!_setPosition)
+            {
+                _sprite.SetPosition(_sprite.GetPosition() + amount);
+            }
 
-            _sprite.SetPosition(_sprite.GetPosition() + amount);
+            else
+            {
+                _sprite.SetPosition(_sprite.GetPosition());
+            }
+
+
 
 
         }
 
 
 
-        public PlayerCharacter(TextureManager textureManager, Input input)
+        public PlayerCharacter(TextureManager textureManager, Input input, bool current)
         {
            _input = input;
+            _current = current;
             _sprite.Texture = textureManager.Get("phagocyte");
             _sprite.SetScale(_scale, _scale);
             
@@ -48,7 +59,7 @@ namespace Immunity_vs_Invaders
         }
         public void Render(Renderer renderer)
         {
-            Render_Debug(0, 1, 0);
+            Render_Debug(0, 1, 0, .65, .65);
             renderer.DrawSprite(_sprite);
             
 
@@ -56,6 +67,7 @@ namespace Immunity_vs_Invaders
 
         public void Update(double elapsedTime)
         {
+
             
         }
 

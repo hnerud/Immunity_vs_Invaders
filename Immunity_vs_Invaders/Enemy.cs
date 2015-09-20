@@ -24,12 +24,15 @@ namespace Immunity_vs_Invaders
             get { return Health == 0; }
         }
 
+      
+
         public Enemy (TextureManager textureManager)
         {
             Health = 50;
             _sprite.Texture = textureManager.Get("tatoo_dye");
             _sprite.SetScale(_scale, _scale);
             _sprite.SetPosition(x, y);
+
 
         }
         public void Update(double elapsed)
@@ -39,24 +42,25 @@ namespace Immunity_vs_Invaders
         public void Render(Renderer renderer)
         {
             renderer.DrawSprite(_sprite);
-            Render_Debug(1, 0, 0);
+            Render_Debug(1, 0, 0, .65, .65);
         }
 
-        public bool Overrun
-        {
-            get
-            {
-                return _overrun;
-            }
-        }
+       
 
         internal void OnCollision (PlayerCharacter playercharacter)
         {
+            
 
-            _sprite.SetPosition(x += 100,y);
+            _sprite.SetPosition(_sprite.GetPosition().X + 100, _sprite.GetPosition().Y);
 
             
             
+        }
+
+        internal void OnCollision(BloodStream bloodstream)
+        {
+            _overrun = true;
+
         }
 
         internal void SetPosition(Vector position)

@@ -86,7 +86,7 @@ namespace Immunity_vs_Invaders
         {
             foreach (Enemy enemy in _enemies)
             {
-                if (enemy.GetBoundingBox().Right < _leftBound)
+                if (enemy.GetBoundingBox(0.65, 0.65).Right < _leftBound)
                 {
                     enemy.Health = 0;
                 }

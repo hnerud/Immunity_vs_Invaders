@@ -88,7 +88,7 @@ namespace Immunity_vs_Invaders
         private void InitializeGameData()
         {
             LevelDescription level = new LevelDescription();
-            level.Time = 30;
+            level.Time = 25;
             _persistentGameData.CurrentLevel = level;
             
         }

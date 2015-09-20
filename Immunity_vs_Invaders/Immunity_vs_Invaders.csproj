@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BloodStream.cs" />
+    <Compile Include="CharacterBoard.cs" />
     <Compile Include="Enemy.cs" />
     <Compile Include="EnemyDef.cs" />
     <Compile Include="EnemyManager.cs" />
@@ -73,6 +74,7 @@
     <Compile Include="InnerGameState.cs" />
     <Compile Include="Level.cs" />
     <Compile Include="LevelDescription.cs" />
+    <Compile Include="Path.cs" />
     <Compile Include="PersistentGameData.cs" />
     <Compile Include="PlayerCharacter.cs" />
     <Compile Include="PlayerManager.cs" />

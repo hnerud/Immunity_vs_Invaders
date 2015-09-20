@@ -44,7 +44,7 @@ namespace Immunity_vs_Invaders
 
         internal void OnCollision(Enemy enemy)
         {
-           
+            _dead = true;
 
         }
     }

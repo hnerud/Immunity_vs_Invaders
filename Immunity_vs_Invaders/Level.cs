@@ -18,11 +18,13 @@ namespace Immunity_vs_Invaders
        
         TextureManager _textureManager;
         BloodStream _bloodstream;
+        CharacterBoard _characterboard;
+        
 
-        static readonly double Recovery = 3;
+        static readonly double Recovery = 5;
         double _recoveryTime = Recovery;
 
-        Enemy _enemy;
+       
         
 
         PlayerManager _playerManager;
@@ -40,11 +42,19 @@ namespace Immunity_vs_Invaders
 
             _bloodstream = new BloodStream(_textureManager);
 
+            _characterboard = new CharacterBoard(_textureManager);
+
+
+
         }
 
         public void Update(double elapsedTime, double gameTime)
         {
             _recoveryTime = Math.Max(0, (_recoveryTime - elapsedTime));
+
+            ColorGauge();
+
+
             //is this best spot???
             // Get controls and apply to player character
             double _x = _input.Controller.LeftControlStick.X;
@@ -123,6 +133,7 @@ namespace Immunity_vs_Invaders
             _playerManager.Render(renderer);
             _enemyManager.Render(renderer);
             _bloodstream.Render(renderer);
+            _characterboard.Render(renderer);
             
 
         }
@@ -165,16 +176,34 @@ namespace Immunity_vs_Invaders
         {
             if (_recoveryTime > 0)
             {
+                _characterboard.ChangeColor(1,1,1,0);
                 return;
             }
 
             else
             {
                 _recoveryTime = Recovery;
+                _characterboard.ChangeColor(1,1,1,1);
             }
 
             _playerManager.PlayerList.Add(new PlayerCharacter(_textureManager, _input, _position));
         }
+
+        public void ColorGauge()
+        {
+            if (_recoveryTime > 0)
+            {
+                _characterboard.ChangeColor(0, 0, 0, 1);
+                
+            }
+
+            else
+            {
+                _characterboard.ChangeColor(1, 1, 1, 1);
+            }
+        }
+
+
 
 
     }

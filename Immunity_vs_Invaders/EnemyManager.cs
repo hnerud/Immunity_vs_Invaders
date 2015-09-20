@@ -12,9 +12,11 @@ namespace Immunity_vs_Invaders
         List<Enemy> _enemies = new List<Enemy>();
         TextureManager _textureManager;
         int _leftBound;
+       
 
         List<EnemyDef> _upComingEnemies = new List<EnemyDef>();
-
+        private List<Vector> _pathPoints;
+        private object enemy;
 
         public List<Enemy> EnemyList
         {
@@ -30,15 +32,26 @@ namespace Immunity_vs_Invaders
             _textureManager = textureManager;
             _leftBound = leftBound;
 
-            _upComingEnemies.Add(new EnemyDef("particles", new Vector(300, 300, 0), 25));
-            _upComingEnemies.Add(new EnemyDef("particles", new Vector(300, -300, 0), 30));
-            _upComingEnemies.Add(new EnemyDef("particles", new Vector(300, 0, 0), 29));
+            _upComingEnemies.Add(new EnemyDef("particlesMiddle", 30));
+            _upComingEnemies.Add(new EnemyDef("particlesTop", 29.5));
+            _upComingEnemies.Add(new EnemyDef("particlesBottom", 29));
+            _upComingEnemies.Add(new EnemyDef("particlesBottomMid", 28.5));
+
+            //_upComingEnemies.Add(new EnemyDef("particles", 25));
+            //_upComingEnemies.Add(new EnemyDef("particles", 24.5));
+            //_upComingEnemies.Add(new EnemyDef("particles", 24));
+            //_upComingEnemies.Add(new EnemyDef("particles", 23.5));
+
+            //_upComingEnemies.Add(new EnemyDef("particles", 19));
+            //_upComingEnemies.Add(new EnemyDef("particles", 18.5));
+            //_upComingEnemies.Add(new EnemyDef("particles", 20));
+            //_upComingEnemies.Add(new EnemyDef("particles", 19.5));
 
             _upComingEnemies.Sort(delegate (EnemyDef firstEnemy, EnemyDef secondEnemy)
-            {
-                return firstEnemy.LaunchTime.CompareTo(secondEnemy.LaunchTime);
+           {
+               return firstEnemy.LaunchTime.CompareTo(secondEnemy.LaunchTime);
 
-            });
+           });
 
             //Enemy enemy = new Enemy(_textureManager);
             //_enemies.Add(enemy);
@@ -63,10 +76,42 @@ namespace Immunity_vs_Invaders
         private Enemy CreateEnemyFromDef (EnemyDef definition)
         {
             Enemy enemy = new Enemy(_textureManager);
-            enemy.SetPosition(definition.StartPosition);
+            // enemy.SetPosition(definition.StartPosition);
 
-            if (definition.EnemyType == "particles")
+            if (definition.EnemyType == "particlesMiddle")
             {
+                List<Vector> _pathPoints = new List<Vector>();
+                _pathPoints.Add(new Vector(1400, 0, 0));
+                _pathPoints.Add(new Vector(-1400, 0, 0));
+
+                enemy.Path = new Path(_pathPoints, 60);
+            }
+            else if (definition.EnemyType == "particlesTop")
+            {
+                List<Vector> _pathPoints = new List<Vector>();
+                _pathPoints.Add(new Vector(1400, 200, 0));
+                _pathPoints.Add(new Vector(-1400, 200, 0));
+
+                    enemy.Path = new Path(_pathPoints, 60);
+               
+            }
+
+            else if (definition.EnemyType == "particlesBottom")
+            {
+                List<Vector> _pathPoints = new List<Vector>();
+                _pathPoints.Add(new Vector(1400, -200, 0));
+                _pathPoints.Add(new Vector(-1400, -200, 0));
+               
+                enemy.Path = new Path(_pathPoints, 60);
+            }
+
+            else if (definition.EnemyType == "particlesBottomMid")
+            {
+                List<Vector> _pathPoints = new List<Vector>();
+                _pathPoints.Add(new Vector(1400, -100, 0));
+                _pathPoints.Add(new Vector(-1400, -100, 0));
+
+                enemy.Path = new Path(_pathPoints, 100);
             }
             else
             {

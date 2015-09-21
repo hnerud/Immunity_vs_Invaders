@@ -23,6 +23,8 @@ namespace Immunity_vs_Invaders
        
 
         double _gameTime;
+        int _gameLevel;
+        
 
         public InnerGameState(StateSystem system, Input input, TextureManager textureManager, PersistentGameData gameData, Font generalFont)
         {
@@ -46,6 +48,10 @@ namespace Immunity_vs_Invaders
         {
             _level = new Level(_input, _textureManager, _gameData);
             _gameTime = _gameData.CurrentLevel.Time;
+            _gameLevel = _gameData.CurrentLevel.Number;
+           
+            
+            
             
         }
         void IGameObject.Render()
@@ -69,7 +75,10 @@ namespace Immunity_vs_Invaders
             if (_gameTime <= 0)
             {
                 OnGameStart();
+                _gameData.CurrentLevel.Number++;
                 _gameData.JustWon = true;
+               
+                Console.WriteLine(_gameLevel);
                 _system.ChangeState("game_over");
             }
             if (_level.HasBloodstreamDied())

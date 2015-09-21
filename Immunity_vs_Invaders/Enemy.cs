@@ -11,8 +11,11 @@ namespace Immunity_vs_Invaders
     public class Enemy:Entity
     {
         
-        Sprite _tatoo = new Sprite();
+        //Sprite _tatoo = new Sprite();
+        //Sprite _parasite = new Sprite();
         double _scale = 2.0;
+
+        PersistentGameData _gameData;
 
 
         static readonly double HitFlashTime = 0.25;
@@ -20,6 +23,9 @@ namespace Immunity_vs_Invaders
 
         int x = 200;
         int y = 0;
+
+        Random number = new Random();
+        int pickSprite;
        
 
         public int Health { get; set; }
@@ -33,10 +39,21 @@ namespace Immunity_vs_Invaders
 
       
 
-        public Enemy (TextureManager textureManager)
+        public Enemy (TextureManager textureManager, PersistentGameData gameData)
         {
             Health = 50;
-            _sprite.Texture = textureManager.Get("tatoo_dye");
+            _gameData = gameData;
+            
+            if (_gameData.CurrentLevel.Number >= 1)
+            {
+                
+                _sprite.Texture = textureManager.Get("parasite");
+              
+            }
+            else
+            {
+                _sprite.Texture = textureManager.Get("tatoo_dye");
+            }
             _sprite.SetScale(_scale, _scale);
             _sprite.SetPosition(x, y);
 

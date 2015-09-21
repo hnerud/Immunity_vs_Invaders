@@ -27,6 +27,8 @@ namespace Immunity_vs_Invaders
         Text _titleLose;
         Text _blurbLose;
 
+        int _gameLevel;
+
         public GameOverState (PersistentGameData data, StateSystem system, Input input, Font generalFont, Font titleFont)
         {
             _gameData = data;
@@ -35,6 +37,9 @@ namespace Immunity_vs_Invaders
             _generalFont = generalFont;
             _titleFont = titleFont;
 
+           
+
+            
             _titleWin = new Text("Completed this level!", _titleFont);
             _blurbWin = new Text("You defeated the invaders!", _generalFont);
             _titleLose = new Text("Game Over!", _titleFont);

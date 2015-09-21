@@ -12,6 +12,7 @@ namespace Immunity_vs_Invaders
     {
         List<PlayerCharacter> _players = new List<PlayerCharacter>();
         TextureManager _textureManager;
+       
         bool _position;
         Input _input;
 
@@ -26,11 +27,13 @@ namespace Immunity_vs_Invaders
         public PlayerManager(TextureManager textureManager)
         {
             _textureManager = textureManager;
+            
            
             
 
             PlayerCharacter player = new PlayerCharacter(_textureManager, _input, _position);
             _players.Add(player);
+
         }
 
         public void Update(double elapsedTime)

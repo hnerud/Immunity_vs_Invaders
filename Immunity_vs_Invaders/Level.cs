@@ -19,7 +19,8 @@ namespace Immunity_vs_Invaders
         TextureManager _textureManager;
         BloodStream _bloodstream;
         CharacterBoard _characterboard;
-        
+       
+
 
         static readonly double Recovery = 5;
         double _recoveryTime = Recovery;
@@ -38,13 +39,14 @@ namespace Immunity_vs_Invaders
 
             _playerManager = new PlayerManager(_textureManager);
 
-            _enemyManager = new EnemyManager(_textureManager, -1300);
+            _enemyManager = new EnemyManager(_textureManager, -1300, _gameData);
 
             _bloodstream = new BloodStream(_textureManager);
 
             _characterboard = new CharacterBoard(_textureManager);
-
-
+            
+            
+            
 
         }
 
@@ -60,7 +62,7 @@ namespace Immunity_vs_Invaders
             double _x = _input.Controller.LeftControlStick.X;
             double _y = _input.Controller.LeftControlStick.Y * -1;
             Vector controlInput = new Vector(_x, _y, 0);
-
+       
             if (Math.Abs(controlInput.Length()) < 0.0001)
             {
                 // If the input is very small, then the player may not be using 

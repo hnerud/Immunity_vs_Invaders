@@ -11,6 +11,7 @@ namespace Immunity_vs_Invaders
     {
         List<Enemy> _enemies = new List<Enemy>();
         TextureManager _textureManager;
+        PersistentGameData _gameData;
         int _leftBound;
        
 
@@ -25,27 +26,34 @@ namespace Immunity_vs_Invaders
                 return _enemies;
             }
         }
-      
 
-        public EnemyManager(TextureManager textureManager, int leftBound)
+
+        public EnemyManager(TextureManager textureManager, int leftBound, PersistentGameData gameData)
         {
             _textureManager = textureManager;
             _leftBound = leftBound;
+            _gameData = gameData;
 
-            _upComingEnemies.Add(new EnemyDef("particlesMiddle", 30));
-            _upComingEnemies.Add(new EnemyDef("particlesTop", 29.5));
-            _upComingEnemies.Add(new EnemyDef("particlesBottom", 29));
-            _upComingEnemies.Add(new EnemyDef("particlesBottomMid", 28.5));
+            if (gameData.CurrentLevel.Number >= 1)
+            {
+                _upComingEnemies.Add(new EnemyDef("particlesNewTop", 25));
+                _upComingEnemies.Add(new EnemyDef("particlesNewMiddle", 24.5));
+                _upComingEnemies.Add(new EnemyDef("particlesNewBottom", 24));
+                _upComingEnemies.Add(new EnemyDef("particlesNewTop", 23.5));
 
-            //_upComingEnemies.Add(new EnemyDef("particles", 25));
-            //_upComingEnemies.Add(new EnemyDef("particles", 24.5));
-            //_upComingEnemies.Add(new EnemyDef("particles", 24));
-            //_upComingEnemies.Add(new EnemyDef("particles", 23.5));
+                _upComingEnemies.Add(new EnemyDef("particlesNewMiddle", 19));
+                _upComingEnemies.Add(new EnemyDef("particlesNewBottom", 18.5));
+                _upComingEnemies.Add(new EnemyDef("particlesNewTop", 20));
+                _upComingEnemies.Add(new EnemyDef("particlesNewMiddle", 19.5));
+            }
 
-            //_upComingEnemies.Add(new EnemyDef("particles", 19));
-            //_upComingEnemies.Add(new EnemyDef("particles", 18.5));
-            //_upComingEnemies.Add(new EnemyDef("particles", 20));
-            //_upComingEnemies.Add(new EnemyDef("particles", 19.5));
+           else 
+            {
+                _upComingEnemies.Add(new EnemyDef("particlesMiddle", 30));
+                _upComingEnemies.Add(new EnemyDef("particlesTop", 29.5));
+                _upComingEnemies.Add(new EnemyDef("particlesBottom", 29));
+                _upComingEnemies.Add(new EnemyDef("particlesBottomMid", 28.5));
+            }
 
             _upComingEnemies.Sort(delegate (EnemyDef firstEnemy, EnemyDef secondEnemy)
            {
@@ -75,7 +83,7 @@ namespace Immunity_vs_Invaders
 
         private Enemy CreateEnemyFromDef (EnemyDef definition)
         {
-            Enemy enemy = new Enemy(_textureManager);
+            Enemy enemy = new Enemy(_textureManager, _gameData);
             // enemy.SetPosition(definition.StartPosition);
 
             if (definition.EnemyType == "particlesMiddle")
@@ -112,6 +120,47 @@ namespace Immunity_vs_Invaders
                 _pathPoints.Add(new Vector(-1400, -100, 0));
 
                 enemy.Path = new Path(_pathPoints, 100);
+            }
+            else if (definition.EnemyType =="particlesNewMiddle")
+            {
+                List<Vector> _pathPoints = new List<Vector>();
+                _pathPoints.Add(new Vector(1400, 0, 0));
+                _pathPoints.Add(new Vector(500, 100, 0));
+                _pathPoints.Add(new Vector(200, 0, 0));
+                _pathPoints.Add(new Vector(0, 100, 0));
+                _pathPoints.Add(new Vector(200, 0, 0));
+                _pathPoints.Add(new Vector(-500, 100, 0));
+
+                enemy.Path = new Path(_pathPoints, 10);
+
+            }
+
+            else if (definition.EnemyType == "particlesNewTop")
+            {
+                List<Vector> _pathPoints = new List<Vector>();
+                _pathPoints.Add(new Vector(1400, 200, 0));
+                _pathPoints.Add(new Vector(500, 300, 0));
+                _pathPoints.Add(new Vector(200, 200, 0));
+                _pathPoints.Add(new Vector(0, 300, 0));
+                _pathPoints.Add(new Vector(200, 200, 0));
+                _pathPoints.Add(new Vector(-500, 300, 0));
+
+                enemy.Path = new Path(_pathPoints, 5);
+
+            }
+
+            else if (definition.EnemyType == "particlesNewBottom")
+            {
+                List<Vector> _pathPoints = new List<Vector>();
+                _pathPoints.Add(new Vector(1400, -200, 0));
+                _pathPoints.Add(new Vector(500, -100, 0));
+                _pathPoints.Add(new Vector(200, -200, 0));
+                _pathPoints.Add(new Vector(0, -100, 0));
+                _pathPoints.Add(new Vector(200, -200, 0));
+                _pathPoints.Add(new Vector(-500, -100, 0));
+
+                enemy.Path = new Path(_pathPoints, 10);
+
             }
             else
             {

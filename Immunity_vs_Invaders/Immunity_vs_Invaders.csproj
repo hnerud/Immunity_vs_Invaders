@@ -60,6 +60,7 @@
   <ItemGroup>
     <Compile Include="BloodStream.cs" />
     <Compile Include="CharacterBoard.cs" />
+    <Compile Include="EffectsManager.cs" />
     <Compile Include="Enemy.cs" />
     <Compile Include="EnemyDef.cs" />
     <Compile Include="EnemyManager.cs" />
